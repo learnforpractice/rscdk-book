@@ -560,6 +560,9 @@
 <p>激活新的 PATH 环境变量：</p>
 <div class="highlight"><pre><span></span><code><span class="nb">source</span><span class="w"> </span><span class="nv">$HOME</span>/.cargo/env
 </code></pre></div>
+<p>对于Windows平台，可前往下面的的官方下载地址根据提示下载：</p>
+<div class="highlight"><pre><span></span><code>https://www.rust-lang.org/tools/install
+</code></pre></div>
 <h2 id="binaryen">安装 binaryen</h2>
 <ul>
 <li>安装版本 &gt;= 99 的 <code>binaryen</code>:</li>
@@ -580,15 +583,8 @@ python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </s
 <p>安装 ipyeos：</p>
 <div class="highlight"><pre><span></span><code>python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>ipyeos
 </code></pre></div>
-<p>如果你的平台是 Windows 或 MacOSX M1/M2，你也可以下载一个包含ipyeos工具的镜像</p>
-<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>pull<span class="w"> </span>ghcr.io/uuosio/scdk:latest
-</code></pre></div>
-<p>在<code>scdk</code>这个docker镜像中，已经包含了如下的工具：</p>
-<div class="highlight"><pre><span></span><code>ipyeos
-gscdk
-pscdk
-eoscdt
-pyeoskit
+<p>如果你的平台是 Windows 或 MacOSX M1/M2，你还需要下载一个包含ipyeos工具的镜像</p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>pull<span class="w"> </span>ghcr.io/uuosio/ipyeos:latest
 </code></pre></div>
 <p>在 macOS 上安装和运行 Docker 的推荐软件是 <a href="https://orbstack.dev/download">OrbStack</a>。对于其他平台，可以使用 <a href="https://www.docker.com/products/docker-desktop">Docker Desktop</a>。</p>
 <h2 id="rust_1">安装 Rust 智能合约构建器</h2>
@@ -609,9 +605,7 @@ rust-contract<span class="w"> </span>build
 <p>测试:</p>
 <div class="highlight"><pre><span></span><code>ipyeos<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span>-s<span class="w"> </span>-x<span class="w"> </span>test.py<span class="w"> </span>-k<span class="w"> </span>test_hello
 </code></pre></div>
-<p>如果你的平台不支持直接运行ipyeos，例如在Windows平台或者或 MacOSX M1/M2，或者是其它使用ARM指令集的CPU的平台，你可以使用Docker来运行该命令：</p>
-<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>--entrypoint<span class="w"> </span>ipyeos<span class="w"> </span>-it<span class="w"> </span>--rm<span class="w"> </span>-v<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">&quot;</span>:/develop<span class="w"> </span>-w<span class="w"> </span>/develop<span class="w"> </span>-t<span class="w"> </span>ghcr.io/uuosio/scdk<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span>-s<span class="w"> </span>-x<span class="w"> </span>test.py<span class="w"> </span>-k<span class="w"> </span>test_hello
-</code></pre></div>
+<p>在Windows平台或者或 MacOSX M1/M2，运行上面的命令将自动启动docker来运行测试。</p>
 <p>另外，你也可以运行<code>cargo test</code>来运行测试：</p>
 <div class="highlight"><pre><span></span><code>cargo<span class="w"> </span><span class="nb">test</span>
 </code></pre></div>
@@ -638,9 +632,7 @@ rust-contract<span class="w"> </span>build
 <span class="p">}</span>
 </code></pre></div>
 <p>需要注意的是，执行<code>cargo test</code>之前，必须先执行<code>eosdebugger</code>这个在<code>ipyeos</code>中的应用，rust测试代码需要连接到<code>eosdebugger</code>来运行测试。</p>
-<p>如果你的平台不支持直接运行<code>eosdebugger</code>，例如在Windows平台或者使用ARM指令集的CPU的平台，你可以使用Docker来运行该命令：</p>
-<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>--rm<span class="w"> </span>-p<span class="w"> </span><span class="m">9090</span>:9090<span class="w"> </span>-p<span class="w"> </span><span class="m">9092</span>:9092<span class="w"> </span>-p<span class="w"> </span><span class="m">9093</span>:9093<span class="w"> </span>-t<span class="w"> </span>ghcr.io/uuosio/scdk
-</code></pre></div>
+<p>在Windows平台或者使用ARM指令集的CPU的平台，运行该命令将自动通过docker来运行eosdebugger.</p>
 <p>启动后，运行<code>cargo test</code>，即可以运行<code>eosdebugger</code>中的控制台中看到如下的输出：</p>
 <div class="highlight"><pre><span></span><code><span class="o">[(</span>hello,inc<span class="o">)</span>-&gt;hello<span class="o">]</span>:<span class="w"> </span>CONSOLE<span class="w"> </span>OUTPUT<span class="w"> </span><span class="nv">BEGIN</span><span class="w"> </span><span class="o">=====================</span>
 count<span class="w"> </span>is<span class="w"> </span><span class="m">1</span>

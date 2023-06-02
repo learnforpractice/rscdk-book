@@ -427,9 +427,20 @@
 <p>首先，用下面的命令安装<code>eoscdt</code>用于编译c或者是c++代码:</p>
 <div class="highlight"><pre><span></span><code>python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>eoscdt
 </code></pre></div>
-<p>如果你的平台不支持直接安装，则必须使用docker来安装相关的镜像，然后在docker中运行相关的命令，具体的安装过程在<a href="../env/">设置开发环境</a>这章中已经有过介绍。通过下面的命令在docker中运行bash，然后在bash中执行相关的命令。</p>
+<p>如果你的平台是 Windows 或 MacOSX M1/M2，你也可以下载一个包含ipyeos工具的镜像</p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>pull<span class="w"> </span>ghcr.io/uuosio/scdk:latest
+</code></pre></div>
+<p>在<code>scdk</code>这个docker镜像中，已经包含了如下的工具：</p>
+<div class="highlight"><pre><span></span><code>ipyeos
+gscdk
+pscdk
+eoscdt
+pyeoskit
+</code></pre></div>
+<p>然后通过下面的命令在docker中运行<code>bash</code>：</p>
 <div class="highlight"><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>--entrypoint<span class="w"> </span>bash<span class="w"> </span>-it<span class="w"> </span>--rm<span class="w"> </span>-v<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">&quot;</span>:/develop<span class="w"> </span>-t<span class="w"> </span>ghcr.io/uuosio/scdk
 </code></pre></div>
+<p>再在bash中执行接下来的编译<code>say_hello</code>库的命令。</p>
 <p>下面以编译<code>say_hello</code>函数为例，演示如何从Rust代码中调用C/C++中的代码：</p>
 <p>先看<a href="https://github.com/learnforpractice/rscdk-book/blob/master/examples/testcallcpp/say_hello/say_hello.cpp">say_hello/say_hello.cpp</a>中的代码：</p>
 <div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdint.h&gt;</span>
@@ -546,6 +557,12 @@ make
 <p>如下的代码是链接<code>libc++.a</code>这个库，代码的路径是通过运行<code>cdt-get-root-dir</code>这个命令来获取的：</p>
 <div class="highlight"><pre><span></span><code><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;cargo:rustc-link-search={}/{}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">stdout</span><span class="p">.</span><span class="n">trim</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;lib&quot;</span><span class="p">);</span>
 <span class="fm">println!</span><span class="p">(</span><span class="s">&quot;cargo:rustc-link-lib=static=c++&quot;</span><span class="p">);</span>
+</code></pre></div>
+<p>最后，运行下面的命令来生成合约文件：</p>
+<div class="highlight"><pre><span></span><code>rust-contract<span class="w"> </span>build
+</code></pre></div>
+<p>再运行下面的命令进行测试：</p>
+<div class="highlight"><pre><span></span><code>ipyeos<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span>-s<span class="w"> </span>-x<span class="w"> </span>test.py<span class="w"> </span>-k<span class="w"> </span>test_hello
 </code></pre></div>
 <h1 id="_1">附录:</h1>
 <p>Rust类型和C类型对照表：</p>

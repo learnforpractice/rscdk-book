@@ -616,7 +616,7 @@ count is 2
 
 [(hello,inc)-&gt;hello]: CONSOLE OUTPUT END   =====================
 </code></pre></div>
-<p>需要注意的是上面的输出是调用信息，如果是在主网上运行,<code>chain_println!</code>函数输出的内容是看不到的，如果是运行在测试网，则在运行nodeos命令的时候要加上参数<code>--contracts-console</code>才能在返回中看调试输出。</p>
+<p>需要注意的是上面的输出是调试信息，如果是在主网上运行,<code>chain_println!</code>函数输出的内容是看不到的，如果是运行在测试网，则在运行nodeos命令的时候要加上参数<code>--contracts-console</code>才能在返回中看调试输出。</p>
 <p>在上面测试代码中，则是直接通过下面的这行代码来输出调试信息：</p>
 <div class="highlight"><pre><span></span><code><span class="n">chaintester</span><span class="o">.</span><span class="n">chain_config</span><span class="p">[</span><span class="s1">&#39;contracts_console&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 </code></pre></div>

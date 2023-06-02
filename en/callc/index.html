@@ -427,9 +427,20 @@
 <p>First, use the following command to install <code>eoscdt</code> for compiling C or C++ code:</p>
 <div class="highlight"><pre><span></span><code>python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>eoscdt
 </code></pre></div>
-<p>If your platform does not support direct installation, you must install the relevant Docker image, and then run the relevant commands in Docker. The specific installation process has been introduced in the <a href="../env/">Setting up the development environment</a> chapter. Run bash in Docker with the following command, and then execute the related commands in bash.</p>
+<p>If your platform is Windows or MacOSX M1/M2, you can also download an image that includes the <code>eoscdt</code> tool:</p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>pull<span class="w"> </span>ghcr.io/uuosio/scdk:latest
+</code></pre></div>
+<p>The <code>scdk</code> Docker image already includes the following tools:</p>
+<div class="highlight"><pre><span></span><code>ipyeos
+gscdk
+pscdk
+eoscdt
+pyeoskit
+</code></pre></div>
+<p>Then, run <code>bash</code> in Docker with the following command:</p>
 <div class="highlight"><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>--entrypoint<span class="w"> </span>bash<span class="w"> </span>-it<span class="w"> </span>--rm<span class="w"> </span>-v<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">&quot;</span>:/develop<span class="w"> </span>-t<span class="w"> </span>ghcr.io/uuosio/scdk
 </code></pre></div>
+<p>Next, execute the following command in bash to compile the <code>say_hello</code> library.</p>
 <p>Below, we will compile the <code>say_hello</code> function as an example to show how to call code from C/C++ in Rust:</p>
 <p>First, take a look at the code in <a href="https://github.com/learnforpractice/rscdk-book/blob/master/examples/testcallcpp/say_hello/say_hello.cpp">say_hello/say_hello.cpp</a>:</p>
 <div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdint.h&gt;</span>
@@ -546,6 +557,12 @@ make
 <p>The following code links the <code>libc++.a</code> library, and the code path is obtained by running the <code>cdt-get-root-dir</code> command:</p>
 <div class="highlight"><pre><span></span><code><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;cargo:rustc-link-search={}/{}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">stdout</span><span class="p">.</span><span class="n">trim</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;lib&quot;</span><span class="p">);</span>
 <span class="fm">println!</span><span class="p">(</span><span class="s">&quot;cargo:rustc-link-lib=static=c++&quot;</span><span class="p">);</span>
+</code></pre></div>
+<p>Finally, run the following command to generate the contract file:</p>
+<div class="highlight"><pre><span></span><code>rust-contract<span class="w"> </span>build
+</code></pre></div>
+<p>Then run the following command to perform tests:</p>
+<div class="highlight"><pre><span></span><code>ipyeos<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span>-s<span class="w"> </span>-x<span class="w"> </span>test.py<span class="w"> </span>-k<span class="w"> </span>test_hello
 </code></pre></div>
 <h1 id="appendix">Appendix:</h1>
 <p>Rust type and C type comparison table:</p>
